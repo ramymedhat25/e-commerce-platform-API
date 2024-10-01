@@ -1,3 +1,4 @@
+// src/routes/productRoutes.js
 const express = require("express");
 const {
   createProduct,
@@ -6,14 +7,17 @@ const {
   updateProductById,
   deleteProductById,
 } = require("../controllers/productController");
-const validateProduct = require("../middlewares/validateProduct");
+const { protect, admin } = require("../middlewares/authMiddleware");
 
-router.post("/products", validateProduct, createProduct);
-router.put("/products/:id", validateProduct, updateProductById);
+const router = express.Router();
+
+// Only admins can create, update, and delete products
+router.post("/products", protect, admin, createProduct);
+router.put("/products/:id", protect, admin, updateProductById);
+router.delete("/products/:id", protect, admin, deleteProductById);
+
+// All users can view products
 router.get("/products", getAllProducts);
 router.get("/products/:id", getProductById);
-router.delete("/products/:id", deleteProductById);
-
-module.exports = router;
 
 module.exports = router;
