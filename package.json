@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "e-commerce-platform-api": "file:",
     "express": "^4.21.0",
     "mongoose": "^8.7.0"
   },
