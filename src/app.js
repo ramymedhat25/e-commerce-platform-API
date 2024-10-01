@@ -1,22 +1,18 @@
-// src/server.js
-const mongoose = require("mongoose");
-const app = require("./app"); // Importing the app instance
-require("dotenv").config();
+// src/app.js
+const express = require("express");
+const app = express();
+const productRoutes = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
 
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
+// Middleware
+app.use(express.json());
 
-// MongoDB Connection
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("Connected to MongoDB");
-    // Start the server only after successful MongoDB connection
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-    process.exit(1); // Exit the process with a failure code
-  });
+// Routes
+app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the E-commerce Platform!");
+});
+
+module.exports = app;
