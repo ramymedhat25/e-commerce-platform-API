@@ -8,7 +8,7 @@ const userRoutes = require("./routes/userRoutes");
 app.use(express.json());
 
 // Routes
-app.use("/api/products", productRoutes);
+app.use("/api", productRoutes);
 app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
