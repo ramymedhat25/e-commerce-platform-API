@@ -1,22 +1,22 @@
+// src/models/Order.js
 const mongoose = require("mongoose");
-const Product = require("./productModel");
 
 const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
     required: true,
+    ref: "User",
   },
   orderItems: [
     {
-      Product: {
+      product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
         required: true,
+        ref: "Product",
       },
       quantity: {
-        required: true,
         type: Number,
+        required: true,
       },
     },
   ],
@@ -28,6 +28,18 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
+    required: true,
+  },
+  itemsPrice: {
+    type: Number,
+    required: true,
+  },
+  taxPrice: {
+    type: Number,
+    required: true,
+  },
+  shippingPrice: {
+    type: Number,
     required: true,
   },
   totalPrice: {
@@ -57,5 +69,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 const Order = mongoose.model("Order", orderSchema);
-
 module.exports = Order;
