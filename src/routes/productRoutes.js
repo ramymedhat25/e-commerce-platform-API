@@ -5,6 +5,7 @@ const {
   getProductById,
   updateProductById,
   deleteProductById,
+  addProductReview,
 } = require("../controllers/productController");
 const { protect, admin } = require("../middlewares/authMiddleware");
 
@@ -19,4 +20,6 @@ router.delete("/products/:id", protect, admin, deleteProductById);
 router.get("/products", getAllProducts);
 router.get("/products/:id", getProductById);
 
+// Add review to a product
+router.post("/:id/review", protect, addProductReview);
 module.exports = router;
