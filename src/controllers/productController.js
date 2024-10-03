@@ -13,8 +13,33 @@ exports.createProduct = async (req, res) => {
 
 //Get all products
 exports.getAllProducts = async (req, res) => {
+  const { keyword, category, minPrice, maxPrice } = req.query;
+
+  let query = {};
+
+  // Search by keyword
+  if (keyword) {
+    query.name = { $regex: keyword, $options: "i" }; // Case-insensitive search
+  }
+
+  // Filter by category
+  if (category) {
+    query.category = category;
+  }
+
+  // Filter by price range
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) {
+      query.price.$gte = Number(minPrice);
+    }
+    if (maxPrice) {
+      query.price.$lte = Number(maxPrice);
+    }
+  }
+
   try {
-    const products = await Product.find();
+    const products = await Product.find(query);
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
